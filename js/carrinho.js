@@ -50,7 +50,7 @@ function inicializaLoja(){
            divProdutos.innerHTML+=itens[i].estoque+'<br>'
            divProdutos.innerHTML+='<a href="javascript:incluirItem('+items[i].id+')"><i class="fa-solid fa-cart-shopping"></i></a><br><br>'*/
 
-            //Configurando a div do card-prod para essa, para estiliza no css 
+            //Configurando a div do card-prod(post) para essa, para estiliza no css 
             let divItem = document.createElement("div");
             divItem.className="card-prod";
             divItem.innerHTML+='<img src="'+itens[i].img+'"></img><br>'
@@ -71,6 +71,15 @@ function incluirItem(id){
     for(let i=o;i<itens.length;i++){
         if(itens[i].id==id){
             itens[i].qtd++;
+
+            //inclui essa f depois p/, implementação da requisição POST e criação da rota
+            let request = new XMLHttpRequest();
+            request.open("POST", "http://localhost:3000/produtos/incluir")// produto incluir: correto é  colection estoque, qdo rodar o item deverá ser um pedido(montar um pedido com os itens do usuario)
+            request.setRequestHeader("Accept", "application/json");
+            request.setRequestHeader("Content-Type", "application/json");
+
+            request.send(JSON.stringify(itens[i]))
+            console.log(itens[i])
         }
     }
     atualizarCarrinho()
